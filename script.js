@@ -54,21 +54,30 @@ const conversation = [
 ];
 
 // Open/Close chat
-chatButton.addEventListener('click', () => {
-    chatWindow.classList.add('active');
-    chatButton.style.display = 'none';
-});
+if (chatButton) {
+    chatButton.addEventListener('click', function() {
+        chatWindow.classList.add('active');
+        chatButton.style.display = 'none';
+    });
+}
 
-closeButton.addEventListener('click', () => {
-    chatWindow.classList.remove('active');
-    chatButton.style.display = 'flex';
-});
+if (closeButton) {
+    closeButton.addEventListener('click', function() {
+        chatWindow.classList.remove('active');
+        chatButton.style.display = 'flex';
+    });
+}
 
 // Send message
-sendButton.addEventListener('click', sendMessage);
-chatInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') sendMessage();
-});
+if (sendButton) {
+    sendButton.addEventListener('click', sendMessage);
+}
+
+if (chatInput) {
+    chatInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') sendMessage();
+    });
+}
 
 function sendMessage() {
     const message = chatInput.value.trim();
@@ -85,7 +94,7 @@ function sendMessage() {
     }
 
     // Delay bot response
-    setTimeout(() => {
+    setTimeout(function() {
         if (conversationStep < conversation.length) {
             askQuestion(conversationStep);
         } else {
@@ -100,7 +109,7 @@ function askQuestion(step) {
 
     // If has options, show them as quick replies
     if (current.options) {
-        setTimeout(() => {
+        setTimeout(function() {
             addQuickReplies(current.options);
         }, 300);
     }
@@ -113,7 +122,7 @@ function askQuestion(step) {
 
 function addMessage(text, sender) {
     const messageDiv = document.createElement('div');
-    messageDiv.className = `message ${sender}-message`;
+    messageDiv.className = 'message ' + sender + '-message';
     messageDiv.textContent = text;
     chatMessages.appendChild(messageDiv);
     chatMessages.scrollTop = chatMessages.scrollHeight;
@@ -124,15 +133,61 @@ function addQuickReplies(options) {
     repliesDiv.className = 'quick-replies';
     repliesDiv.style.cssText = 'display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px;';
 
-    options.forEach(option => {
+    options.forEach(function(option) {
         const button = document.createElement('button');
         button.textContent = option;
         button.style.cssText = 'background: #f0f0f0; border: 1px solid #ddd; padding: 8px 15px; border-radius: 20px; cursor: pointer; font-size: 0.9rem; transition: all 0.2s;';
         
-        button.addEventListener('mouseover', () => {
+        button.addEventListener('mouseover', function() {
             button.style.background = '#1e3c72';
             button.style.color = 'white';
         });
         
-        button.addEventListener('mouseout', () => {
-            button.style.background = '#f0f0f
+        button.addEventListener('mouseout', function() {
+            button.style.background = '#f0f0f0';
+            button.style.color = '#333';
+        });
+
+        button.addEventListener('click', function() {
+            chatInput.value = option;
+            sendMessage();
+            repliesDiv.remove();
+        });
+
+        repliesDiv.appendChild(button);
+    });
+
+    chatMessages.appendChild(repliesDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function finishConversation() {
+    addMessage("Excellent! 🎉", 'bot');
+    
+    setTimeout(function() {
+        addMessage('Here\'s what I\'ve captured:\n\n' +
+            '📍 Type: ' + leadData.type + '\n' +
+            '💰 Budget: ' + leadData.budget + '\n' +
+            '🏘️ Neighborhoods: ' + leadData.neighborhoods + '\n' +
+            '✅ Pre-approved: ' + leadData.preApproved + '\n' +
+            '📅 Timeline: ' + leadData.timeline + '\n' +
+            '📧 Contact: ' + leadData.contact + '\n\n' +
+            'An agent will reach out within 24 hours with personalized property recommendations. Thanks!', 'bot');
+        
+        // Log lead data (in real version, this sends to CRM/email)
+        console.log('Lead Qualified:', leadData);
+        
+        setTimeout(function() {
+            addMessage("This is a demo. In the real version, this lead info would be sent directly to the agent's CRM or email. 🚀", 'bot');
+        }, 2000);
+    }, 1000);
+}
+
+// Start conversation when page loads
+window.addEventListener('load', function() {
+    setTimeout(function() {
+        if (conversationStep === 0) {
+            askQuestion(0);
+        }
+    }, 500);
+});
