@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brooklyn Luxury Homes - AI Assistant Demo</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="hero">
+        <div class="hero-content">
+            <h1>Brooklyn Luxury Real Estate</h1>
+            <p class="tagline">Find Your Dream Home with AI-Powered Assistance</p>
+            <p class="demo-notice">🤖 This is a demo of our AI Lead Qualifier for real estate agents</p>
+        </div>
+    </div>
+
+    <div class="features">
+        <div class="feature">
+            <h3>24/7 Lead Qualification</h3>
+            <p>AI assistant qualifies leads while you sleep</p>
+        </div>
+        <div class="feature">
+            <h3>Instant Responses</h3>
+            <p>Never miss a hot buyer again</p>
+        </div>
+        <div class="feature">
+            <h3>Smart Filtering</h3>
+            <p>Only sends you qualified, ready-to-buy leads</p>
+        </div>
+    </div>
+
+    <!-- Chat Button -->
+    <button class="chat-button" id="chatButton">
+        <span class="chat-icon">💬</span>
+        <span class="chat-text">Try AI Assistant</span>
+    </button>
+
+    <!-- Chat Window -->
+    <div class="chat-window" id="chatWindow">
+        <div class="chat-header">
+            <h3>AI Real Estate Assistant</h3>
+            <button class="close-button" id="closeButton">✕</button>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <div class="message bot-message">
+                Hi! I'm here to help you find your perfect Brooklyn home. Are you looking to buy or sell?
+            </div>
+        </div>
+        <div class="chat-input-container">
+            <input type="text" class="chat-input" id="chatInput" placeholder="Type your message...">
+            <button class="send-button" id="sendButton">Send</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
